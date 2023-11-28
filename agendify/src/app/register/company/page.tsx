@@ -137,10 +137,9 @@ export default function RegisterCompany() {
                 </Typography>
                 <Grid
                     container
-                    spacing={1}
+                    spacing={0}
                     sx={{
                         width: 640,
-                        marginTop: "20px",
                     }}
                 >
                     <Grid item xs={4}>
