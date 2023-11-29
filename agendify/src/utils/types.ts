@@ -44,6 +44,8 @@ type Service = {
     description: string;
     date: string;
     time: string;
+    customerName?: string;
+    customerPhone?: string;
 };
 
 type CompanyType = {

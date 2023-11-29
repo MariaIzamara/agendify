@@ -23,6 +23,7 @@ export default function Schedules() {
 
     useEffect(() => {
         if(data){
+            context.userType === "COMPANY" ?
             setReservations(data.map((reservation: any):Service => ({
                 id: reservation.id,
                 name: reservation.service.name,
@@ -30,8 +31,20 @@ export default function Schedules() {
                 duration: reservation.service.duration,
                 description: reservation.service.description,
                 date: reservation.date,
-                time: reservation.start
-            })));
+                time: reservation.start,
+                customerName: reservation.user.name,
+                customerPhone: reservation.user.phone,
+            }))) :
+            setReservations(data.map((reservation: any):Service => ({
+                id: reservation.id,
+                name: reservation.service.name,
+                cost: reservation.service.cost,
+                duration: reservation.service.duration,
+                description: reservation.service.description,
+                date: reservation.date,
+                time: reservation.start,
+            }))) 
+            ;
         }
     }, [loading, data])
 

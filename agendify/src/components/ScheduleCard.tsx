@@ -1,5 +1,7 @@
+import { AuthContext } from "@/context/AuthContext";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { Box, IconButton, Typography, useTheme } from "@mui/material";
+import { useContext } from "react";
 
 type ScheduleCardProps = {
     id: number;
@@ -9,6 +11,8 @@ type ScheduleCardProps = {
     description: string;
     date: string;
     time: string;
+    customerName?: string;
+    customerNumber?: string;
     onDelete: (a: Service) => void;
 };
 
@@ -20,9 +24,12 @@ export default function ScheduleCard({
     description,
     date,
     time,
+    customerName,
+    customerNumber,
     onDelete,
 }: ScheduleCardProps) {
     const theme = useTheme();
+    const context = useContext(AuthContext);
 
     const handleDelete = () => {
         onDelete({
@@ -35,6 +42,8 @@ export default function ScheduleCard({
             time: time ? time : "",
         });
     };
+
+    const customerData = context.userType==="COMPANY" ? (customerName && customerNumber && (" - " + customerName + " - " + customerNumber)) : ""
 
     return (
         <Box
@@ -75,7 +84,7 @@ export default function ScheduleCard({
                 <Typography sx={{ fontSize: 16 }}>
                     {"Duração de " + duration + " minutos"}
                 </Typography>
-                <Typography sx={{ fontSize: 14 }}>{description}</Typography>
+                <Typography sx={{ fontSize: 14 }}>{description + customerData}</Typography>
                 <Typography sx={{ fontSize: 14 }}>
                     {date ? (date + " - " + time) : <>&nbsp;</>}
                 </Typography>
