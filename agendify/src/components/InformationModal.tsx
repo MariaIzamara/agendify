@@ -5,17 +5,24 @@ export default function InformationModal({
     icon,
     text,
     backgroundColor,
+    onClose,
 }: {
     icon: ReactNode;
     text: string;
     backgroundColor: string;
+    onClose?: () => void;
 }): ReactNode {
     const theme = useTheme();
 
     const [open, setOpen] = useState<boolean>(true);
 
+    const handleClose = () => {
+        setOpen(false);
+        onClose && onClose();
+    }
+
     return (
-        <Modal open={open} onClose={() => setOpen(false)}>
+        <Modal open={open} onClose={handleClose}>
             <Box
                 sx={{
                     display: "flex",

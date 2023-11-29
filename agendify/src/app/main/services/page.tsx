@@ -9,9 +9,11 @@ import { CircularProgress, Container, useTheme } from "@mui/material";
 import { ReactNode, useContext, useEffect, useState } from "react";
 import styles from "./index.module.scss";
 import { AuthContext } from "@/context/AuthContext";
+import { useRouter } from "next/navigation";
 
 export default function Login() {
     const theme = useTheme();
+    const router = useRouter();
     const context = useContext(CompanyContext);
     const authContext = useContext(AuthContext);
 
@@ -68,6 +70,7 @@ export default function Login() {
             date: confirmService.date,
         }, authContext.token);
         setConfirmService(null);
+        router.push("/schedules")
     }
 
     const renderConfirm = (): ReactNode => (

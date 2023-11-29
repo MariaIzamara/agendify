@@ -39,6 +39,7 @@ export default function Home() {
                     color="primary"
                     underline="hover"
                     onClick={() => router.push("/login")}
+                    sx={{cursor: 'pointer'}}
                 >
                     Entrar
                 </Link>
@@ -49,6 +50,7 @@ export default function Home() {
                     color="primary"
                     underline="hover"
                     onClick={() => router.push("/register")}
+                    sx={{cursor: 'pointer'}}
                 >
                     Cadastre-se
                 </Link>
@@ -59,6 +61,7 @@ export default function Home() {
                     color="primary"
                     underline="hover"
                     onClick={() => router.push("/main")}
+                    sx={{cursor: 'pointer'}}
                 >
                     Consultar serviços
                 </Link>

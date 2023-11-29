@@ -235,6 +235,7 @@ export default function RegisterDefault() {
                                 color="primary"
                                 underline="hover"
                                 onClick={() => router.push("/login")}
+                                sx={{cursor: "pointer"}}
                             >
                                 Entrar
                             </Link>

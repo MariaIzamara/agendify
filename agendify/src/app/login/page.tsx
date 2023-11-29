@@ -164,6 +164,7 @@ export default function Login(): ReactNode {
                         color="primary"
                         underline="hover"
                         onClick={() => router.push("/register")}
+                        sx={{cursor: "pointer"}}
                     >
                         Cadastre-se
                     </Link>
