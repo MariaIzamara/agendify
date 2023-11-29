@@ -31,8 +31,8 @@ export default function RegisterClient() {
     const { email, password } = registerContext;
 
     const [photo, setPhoto] = useState<File>();
-    const [fullName, setFullName] = useState("");
-    const [phone, setPhone] = useState("");
+    const [fullName, setFullName] = useState<string>("");
+    const [phone, setPhone] = useState<string>("");
 
     const { loading, success, error, data, requestHttp } = useHttp();
 
@@ -116,8 +116,8 @@ export default function RegisterClient() {
                         width: 400,
                         display: "flex",
                         flexDirection: "column",
-                        rowGap: "20px",
-                        marginTop: "40px",
+                        rowGap: "10px",
+                        marginTop: "20px",
                     }}
                 >
                     <Box>
@@ -146,6 +146,7 @@ export default function RegisterClient() {
                     <Box>
                         <Typography>Nome Completo *</Typography>
                         <TextField
+                            error={!fullName}
                             sx={{ width: 400 }}
                             onChange={(event) =>
                                 setFullName(event.target.value)
@@ -155,6 +156,7 @@ export default function RegisterClient() {
                     <Box>
                         <Typography>Telefone *</Typography>
                         <MuiTelInput
+                            error={!phone}
                             value={phone}
                             onChange={(value) => setPhone(value)}
                             placeholder="00 00000 0000"

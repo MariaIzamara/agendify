@@ -12,10 +12,12 @@ export default function CustomMultipleSelect({
     disabled,
     options,
     onChange,
+    error=false,
 }: {
     disabled?: boolean;
     options: string[];
     onChange?: (a: string[]) => void;
+    error?: boolean
 }) {
     const [selectedOptions, setSelectedOptions] = useState<string[]>([]);
 
@@ -33,6 +35,7 @@ export default function CustomMultipleSelect({
 
     return (
         <Select
+            error={error}
             title={selectedOptions.join(", ")}
             value={selectedOptions}
             renderValue={(selected: string[]) => selected.join(", ")}

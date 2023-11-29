@@ -146,6 +146,7 @@ export default function RegisterDefault() {
                         <Box>
                             <Typography>E-mail *</Typography>
                             <TextField
+                                error={!emailRegex.test(email)}
                                 sx={{ width: 400 }}
                                 onChange={(event) =>
                                     setEmailState(event.target.value)
@@ -155,6 +156,7 @@ export default function RegisterDefault() {
                         <Box>
                             <Typography>Senha *</Typography>
                             <TextField
+                                error={validParams.slice(0,5).includes(false)}
                                 sx={{ width: 400 }}
                                 type={showPassword ? "text" :"password"}
                                 onChange={(event) =>
@@ -184,6 +186,7 @@ export default function RegisterDefault() {
                         <Box>
                             <Typography>Confirmar Senha *</Typography>
                             <TextField
+                                error={!validParams[5]}
                                 sx={{ width: 400 }}
                                 type={showConfirmPassword ? "text" :"password"}
                                 onChange={(event) =>

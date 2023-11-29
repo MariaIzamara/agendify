@@ -103,6 +103,7 @@ export default function Login(): ReactNode {
                 <Box>
                     <Typography>E-mail</Typography>
                     <TextField
+                        error={!email}
                         sx={{ width: 400 }}
                         onChange={(event) => setEmail(event.target.value)}
                     />
@@ -113,7 +114,7 @@ export default function Login(): ReactNode {
                         sx={{ width: 400 }}
                         type={showPassword ? "text" :"password"}
                         onChange={(event) => setPassword(event.target.value)}
-                        
+                        error={!password}
                         InputProps={ {
                             endAdornment: (
                             <InputAdornment position="end">

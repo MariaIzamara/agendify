@@ -9,11 +9,11 @@ import { CircularProgress, Container, useTheme } from "@mui/material";
 import { ReactNode, useContext, useEffect, useState } from "react";
 import styles from "./index.module.scss";
 import { AuthContext } from "@/context/AuthContext";
-import { useRouter } from "next/navigation";
+import InformationModal from "@/components/InformationModal";
+import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 
 export default function Login() {
     const theme = useTheme();
-    const router = useRouter();
     const context = useContext(CompanyContext);
     const authContext = useContext(AuthContext);
 
@@ -50,6 +50,7 @@ export default function Login() {
     };
 
     const [confirmService, setConfirmService] = useState<Service | null>(null);
+    const [success, setSuccess] = useState<boolean>(false);
 
     const { requestHttp } = useHttp();
     const { loading, data, requestHttp: contentRequestHttp } = useHttp();
@@ -70,7 +71,7 @@ export default function Login() {
             date: confirmService.date,
         }, authContext.token);
         setConfirmService(null);
-        router.push("/schedules")
+        setSuccess(true);
     }
 
     const renderConfirm = (): ReactNode => (
@@ -90,9 +91,19 @@ export default function Login() {
         />
     );
 
+    const renderSuccess = (): ReactNode => (
+        <InformationModal
+            icon={<CheckCircleOutlineIcon fontSize="medium" />}
+            text="Agendamento realizado com sucesso!"
+            backgroundColor={theme.palette.success.light}
+            onClose={() => setSuccess(false)}
+        />
+    );
+
     return (
         <>
             {confirmService && renderConfirm()}
+            {success && renderSuccess()}
             <div className={styles.main_container}>
                 <CompanyCard company={company} />
                 <div

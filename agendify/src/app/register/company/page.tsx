@@ -149,6 +149,7 @@ export default function RegisterCompany() {
                             sx={{
                                 width: 176,
                                 height: 136,
+                                backgroundColor: picture ? theme.palette.primary.light : theme.palette.error.light
                             }}
                         >
                             <FileUploadIcon height={300} />
@@ -169,6 +170,7 @@ export default function RegisterCompany() {
                         <Grid item xs={12}>
                             <Typography>Nome *</Typography>
                             <TextField
+                                error={!fullName}
                                 sx={{ width: "100%" }}
                                 onChange={(event) =>
                                     setFullName(event.target.value)
@@ -178,6 +180,7 @@ export default function RegisterCompany() {
                         <Grid item xs={12}>
                             <Typography>Descrição *</Typography>
                             <TextField
+                                error={!description}
                                 sx={{ width: "100%" }}
                                 multiline
                                 rows={2}
@@ -192,6 +195,7 @@ export default function RegisterCompany() {
                         <Grid item xs={6}>
                             <Typography>Telefone *</Typography>
                             <MuiTelInput
+                                error={!phone}
                                 value={phone}
                                 onChange={(value) => setPhone(value)}
                                 sx={{ width: "100%" }}
@@ -201,6 +205,7 @@ export default function RegisterCompany() {
                         <Grid item xs={6}>
                             <Typography>Categorias *</Typography>
                             <CustomMultipleSelect
+                                error={!selectedCategory.length}
                                 options={category}
                                 onChange={(category: string[]) =>
                                     setSelectedCategory(category)
@@ -210,6 +215,7 @@ export default function RegisterCompany() {
                         <Grid item xs={6}>
                             <Typography>Dias *</Typography>
                             <CustomMultipleSelect
+                                error={!selectedDays.length}
                                 options={weekDays}
                                 onChange={(days: string[]) =>
                                     setSelectedDays(days)
@@ -219,6 +225,7 @@ export default function RegisterCompany() {
                         <Grid item xs={3}>
                             <Typography>Abertura *</Typography>
                             <TextField
+                                error={!startTime}
                                 sx={{ width: "100%" }}
                                 onChange={(event) =>
                                     setStartTime(event.target.value)
@@ -230,6 +237,7 @@ export default function RegisterCompany() {
                         <Grid item xs={3}>
                             <Typography>Fechamento *</Typography>
                             <TextField
+                                error={!endTime}
                                 sx={{ width: "100%" }}
                                 onChange={(event) =>
                                     setEndTime(event.target.value)
@@ -244,6 +252,7 @@ export default function RegisterCompany() {
                         <Grid container spacing={2}>
                             <Grid item xs={9}>
                                 <TextField
+                                    error={!street}
                                     sx={{ width: "100%" }}
                                     onChange={(event) =>
                                         setStreet(event.target.value)
@@ -253,6 +262,7 @@ export default function RegisterCompany() {
                             </Grid>
                             <Grid item xs={3}>
                                 <TextField
+                                    error={!number}
                                     sx={{ width: "100%" }}
                                     onChange={(event) =>
                                         setNumber(event.target.value)
@@ -262,6 +272,7 @@ export default function RegisterCompany() {
                             </Grid>
                             <Grid item xs={5}>
                                 <TextField
+                                    error={!neighborhood}
                                     sx={{ width: "100%" }}
                                     onChange={(event) =>
                                         setNeighborhood(event.target.value)
@@ -271,6 +282,7 @@ export default function RegisterCompany() {
                             </Grid>
                             <Grid item xs={4}>
                                 <TextField
+                                    error={!city}
                                     sx={{ width: "100%" }}
                                     onChange={(event) =>
                                         setCity(event.target.value)
@@ -280,6 +292,7 @@ export default function RegisterCompany() {
                             </Grid>
                             <Grid item xs={3}>
                                 <TextField
+                                    error={!state}
                                     sx={{ width: "100%" }}
                                     onChange={(event) =>
                                         setState(event.target.value)
