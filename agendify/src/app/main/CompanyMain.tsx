@@ -4,6 +4,8 @@ import { dummySchedules } from "@/utils/constants";
 import {
     Box,
     Button,
+    CircularProgress,
+    Container,
     TextField,
     Tooltip,
     Typography,
@@ -168,6 +170,19 @@ export default function CompanyMain() {
                     style={{ borderColor: `${theme.palette.primary.main}` }}
                     className={`${styles.main_item} ${styles.main_list}`}
                 >
+                    
+                {pageLoading ? (
+                    <Container
+                        sx={{
+                            height: "100%",
+                            display: "flex",
+                            alignItems: "center",
+                            justifyContent: "center",
+                        }}
+                    >
+                        <CircularProgress />
+                    </Container>
+                ):
                     <div className={styles.main_scroll}>
                         {services.length && services.map((service: Service, i) => (
                             <ScheduleCard
@@ -177,6 +192,7 @@ export default function CompanyMain() {
                             />
                         ))}
                     </div>
+                }
                 </div>
             </div>
         </>

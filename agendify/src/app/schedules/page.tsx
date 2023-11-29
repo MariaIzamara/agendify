@@ -1,5 +1,5 @@
 "use client";
-import { useTheme } from "@mui/material";
+import { CircularProgress, Container, useTheme } from "@mui/material";
 import styles from "./index.module.scss"
 import ScheduleCard from "@/components/ScheduleCard";
 import ConfirmationModal from "@/components/ConfirmationModal";
@@ -12,7 +12,7 @@ export default function Schedules() {
     
     const theme = useTheme();
     const context = useContext(AuthContext);
-    const { loading, success, error, data, requestHttp: pageRequestHttp  } = useHttp();
+    const { loading, data, requestHttp: pageRequestHttp  } = useHttp();
     const { requestHttp } = useHttp();
     const [cancelService, setCancelService] = useState<Service | null>(null);
     const [reservations, setReservations] = useState<Service[]>();
@@ -34,10 +34,6 @@ export default function Schedules() {
             })));
         }
     }, [loading, data])
-
-    useEffect(() => {
-        console.log(loading, success, error)
-    }, [loading, success, error])
 
     const handleConfirm = (service:Service) => {
         setCancelService(service);
@@ -66,6 +62,19 @@ export default function Schedules() {
         <>
             {cancelService && renderConfirm()}
             <div className={styles.main_container} style={{borderColor: `${theme.palette.primary.main}`}}>
+                
+                {loading ? (
+                    <Container
+                        sx={{
+                            height: "100%",
+                            display: "flex",
+                            alignItems: "center",
+                            justifyContent: "center",
+                        }}
+                    >
+                        <CircularProgress />
+                    </Container>
+                ):
                 <div className={styles.main_scroll}>
                     {reservations && 
                      reservations.map((schedule, i) => (
@@ -76,6 +85,7 @@ export default function Schedules() {
                         />
                     ))}
                 </div>
+                }
             </div>
         </>
     )
