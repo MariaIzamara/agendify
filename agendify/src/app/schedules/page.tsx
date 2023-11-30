@@ -72,7 +72,7 @@ export default function Schedules() {
     );
 
     return (
-        <>
+        <div className={styles.main_padding}>
             {cancelService && renderConfirm()}
             <div className={styles.main_container} style={{borderColor: `${theme.palette.primary.main}`}}>
                 
@@ -100,6 +100,6 @@ export default function Schedules() {
                 </div>
                 }
             </div>
-        </>
+        </div>
     )
 }

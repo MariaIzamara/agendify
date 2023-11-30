@@ -168,7 +168,7 @@ export default function ClientMain() {
                     height: "100%",
                     border: `1px solid ${theme.palette.primary.main}`,
                     borderRadius: 8,
-                    padding: "16px",
+                    padding: "8px", 
                 }}
             >
                 {loading ? (

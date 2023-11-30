@@ -24,7 +24,7 @@ export default function RootLayout({
     children: React.ReactNode;
 }) {
     return (
-        <html lang="en">
+        <html lang="pt-br">
             <body className={inter.className}>
                 <AccessibilityProvider>
                     <AuthProvider>
@@ -34,7 +34,9 @@ export default function RootLayout({
                                     <>
                                         <Header />
                                         <ZoomComponent>
+                                            <div style={{height: "calc(100vh - 100px)", boxSizing: "border-box"}}>
                                             {children}
+                                            </div>
                                         </ZoomComponent>
                                         <Accessibility />
                                     </>

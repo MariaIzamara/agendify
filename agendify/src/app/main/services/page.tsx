@@ -108,12 +108,12 @@ export default function Login() {
                 <CompanyCard company={company} />
                 <div
                     className={styles.services_container}
-                    style={{ borderColor: `${theme.palette.primary.main}` }}
+                    style={{ borderColor: `${theme.palette.primary.main}`, display: "flex",
+                    justifyContent: "center" }}
                 >
                     {loading ? (
                         <Container
                             sx={{
-                                height: "100%",
                                 display: "flex",
                                 alignItems: "center",
                                 justifyContent: "center",

@@ -1,10 +1,13 @@
+.main_padding {
+    padding: 20px;
+    height: 100%;
+}
+
 .main_container {
     display: flex;
     flex-direction: column;
-    width: 97%;
-    height: 80vh;
+    height: 100%;
     padding: 20px; 
-    margin: 20px;
     gap: 20px;
     border: 1px solid;
     border-radius: 15px;
@@ -13,9 +16,8 @@
 }
 
 .main_scroll {
-    overflow-y: unset;
     display: flex;
     flex-direction: column;
-    overflow-y: scroll;
+    overflow-y: auto;
     gap: 15px;
 }
