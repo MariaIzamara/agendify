@@ -12,7 +12,7 @@ type ScheduleCardProps = {
     date: string;
     time: string;
     customerName?: string;
-    customerNumber?: string;
+    customerPhone?: string;
     onDelete: (a: Service) => void;
 };
 
@@ -25,7 +25,7 @@ export default function ScheduleCard({
     date,
     time,
     customerName,
-    customerNumber,
+    customerPhone,
     onDelete,
 }: ScheduleCardProps) {
     const theme = useTheme();
@@ -43,7 +43,7 @@ export default function ScheduleCard({
         });
     };
 
-    const customerData = context.userType==="COMPANY" ? (customerName && customerNumber && (" - " + customerName + " - " + customerNumber)) : ""
+    const customerData = context.userType==="COMPANY" ? (customerName && customerPhone && (" - " + customerName + " - " + customerPhone)) : ""
 
     return (
         <Box
@@ -84,7 +84,7 @@ export default function ScheduleCard({
                 <Typography sx={{ fontSize: 16 }}>
                     {"Duração de " + duration + " minutos"}
                 </Typography>
-                <Typography sx={{ fontSize: 14 }}>{description + customerData}</Typography>
+                <Typography sx={{ fontSize: 14 }}>{description + (customerData && customerData)}</Typography>
                 <Typography sx={{ fontSize: 14 }}>
                     {date ? (date + " - " + time) : <>&nbsp;</>}
                 </Typography>

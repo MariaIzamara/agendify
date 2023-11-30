@@ -19,7 +19,7 @@ export default function Login() {
 
     const {
         email,
-        image,
+        imageData,
         name,
         category,
         description,
@@ -35,7 +35,7 @@ export default function Login() {
 
     const company: CompanyType = {
         email,
-        image,
+        imageData,
         name,
         category,
         description,
