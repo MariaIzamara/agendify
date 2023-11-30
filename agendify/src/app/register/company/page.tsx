@@ -90,11 +90,13 @@ export default function RegisterCompany() {
         />
     );
 
-    const imageData = picture ? {
-        imageName: picture.name,
-        imageType: picture.type,
-        imageData: blobToString(picture),
-    } : {}
+    const imageData = picture
+        ? {
+              imageName: picture.name,
+              imageType: picture.type,
+              imageData: blobToString(picture),
+          }
+        : {};
 
     return (
         <>
@@ -143,13 +145,13 @@ export default function RegisterCompany() {
                     }}
                 >
                     <Grid item xs={4}>
-                        <Typography>Imagem *</Typography>
+                        <Typography>Imagem</Typography>
                         <IconButton
                             component="label"
                             sx={{
                                 width: 176,
                                 height: 136,
-                                backgroundColor: picture ? theme.palette.primary.light : theme.palette.error.light
+                                backgroundColor: theme.palette.primary.light,
                             }}
                         >
                             <FileUploadIcon height={300} />
@@ -344,7 +346,7 @@ export default function RegisterCompany() {
                                                 neighborhood,
                                                 city,
                                                 state,
-                                                ...imageData
+                                                ...imageData,
                                             })
                                         }
                                     >
