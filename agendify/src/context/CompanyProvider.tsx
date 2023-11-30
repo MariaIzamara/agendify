@@ -6,7 +6,7 @@ const ID = "COMPANY";
 
 const INITIAL_STATE: CompanyType = {
     email: "",
-    image: "",
+    imageData: "",
     name: "",
     category: [],
     description: "",
@@ -31,7 +31,7 @@ export default function CompanyProvider({
 
     const {
         email,
-        image,
+        imageData,
         name,
         category,
         description,
@@ -50,7 +50,7 @@ export default function CompanyProvider({
 
     const context: Company = {
         email,
-        image,
+        imageData,
         name,
         category,
         description,

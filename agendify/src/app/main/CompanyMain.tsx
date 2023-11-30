@@ -1,9 +1,15 @@
 import ConfirmationModal from "@/components/ConfirmationModal";
 import ScheduleCard from "@/components/ScheduleCard";
-import { dummySchedules } from "@/utils/constants";
+import { AuthContext } from "@/context/AuthContext";
+import useHttp from "@/hooks/useHttp";
+import {
+    SERVICE_CREATE_REQUEST,
+    SERVICE_DELETE_REQUEST,
+    USER_SERVICES_REQUEST,
+} from "@/utils/requests";
+import { LoadingButton } from "@mui/lab";
 import {
     Box,
-    Button,
     CircularProgress,
     Container,
     TextField,
@@ -13,9 +19,6 @@ import {
 } from "@mui/material";
 import { ReactNode, useContext, useEffect, useState } from "react";
 import styles from "./index.module.scss";
-import useHttp from "@/hooks/useHttp";
-import { SERVICE_CREATE_REQUEST, USER_SERVICES_REQUEST, SERVICE_DELETE_REQUEST } from "@/utils/requests";
-import { AuthContext } from "@/context/AuthContext";
 import { timeToMin } from "./utils";
 
 export default function CompanyMain() {
@@ -24,13 +27,17 @@ export default function CompanyMain() {
 
     const [name, setName] = useState("");
     const [description, setDescription] = useState("");
-    const [duration, setDuration] = useState<number>();
-    const [value, setValue] = useState<number>();
+    const [duration, setDuration] = useState("");
+    const [value, setValue] = useState("");
     const [cancelService, setCancelService] = useState<Service | null>(null);
     const [services, setServices] = useState<Service[]>([]);
 
-    const { requestHttp } = useHttp();
-    const { loading: pageLoading, data: pageData, requestHttp: pageRequestHttp } = useHttp();
+    const { loading, requestHttp } = useHttp();
+    const {
+        loading: pageLoading,
+        data: pageData,
+        requestHttp: pageRequestHttp,
+    } = useHttp();
 
     useEffect(() => {
         pageRequestHttp(USER_SERVICES_REQUEST, {}, context.token);
@@ -47,23 +54,41 @@ export default function CompanyMain() {
     };
 
     const deleteService = () => {
-        if(!cancelService) return
-        requestHttp(SERVICE_DELETE_REQUEST, {
-            serviceId: cancelService.id
-        }, context.token)
-        setTimeout(() => pageRequestHttp(USER_SERVICES_REQUEST, {}, context.token), 1000)
-        setCancelService(null)
-    }
+        if (!cancelService) return;
+        requestHttp(
+            SERVICE_DELETE_REQUEST,
+            {
+                serviceId: cancelService.id,
+            },
+            context.token
+        );
+        setTimeout(
+            () => pageRequestHttp(USER_SERVICES_REQUEST, {}, context.token),
+            1000
+        );
+        setCancelService(null);
+    };
 
     const handleCreateService = () => {
-        requestHttp(SERVICE_CREATE_REQUEST, {
-            name: name,
-            cost: value,
-            duration: duration,
-            description: description
-        }, context.token);
-        setTimeout(() => pageRequestHttp(USER_SERVICES_REQUEST, {}, context.token), 1000)
-    }
+        requestHttp(
+            SERVICE_CREATE_REQUEST,
+            {
+                name: name,
+                description: description,
+                duration: timeToMin(duration),
+                cost: parseFloat(value),
+            },
+            context.token
+        );
+        setName("");
+        setDescription("");
+        setDuration("");
+        setValue("");
+        setTimeout(
+            () => pageRequestHttp(USER_SERVICES_REQUEST, {}, context.token),
+            1000
+        );
+    };
 
     const renderConfirm = (): ReactNode => (
         <ConfirmationModal
@@ -82,7 +107,8 @@ export default function CompanyMain() {
         />
     );
 
-    const enableConfirm = name && duration && value;
+    const enableConfirm =
+        (name !== "" && duration !== "" && value !== "") || loading;
 
     return (
         <>
@@ -106,6 +132,7 @@ export default function CompanyMain() {
                         </Typography>
                         <TextField
                             sx={{ width: "100%" }}
+                            value={name}
                             onChange={(event) => setName(event.target.value)}
                         />
                     </Box>
@@ -118,6 +145,7 @@ export default function CompanyMain() {
                             multiline
                             rows={4}
                             size={"small"}
+                            value={description}
                             onChange={(event) =>
                                 setDescription(event.target.value)
                             }
@@ -128,8 +156,9 @@ export default function CompanyMain() {
                             Duração *
                         </Typography>
                         <TextField
+                            value={duration}
                             onChange={(event) =>
-                                setDuration(timeToMin(event.target.value))
+                                setDuration(event.target.value)
                             }
                             placeholder="00:00"
                             type="time"
@@ -141,7 +170,8 @@ export default function CompanyMain() {
                             Valor *
                         </Typography>
                         <TextField
-                            onChange={(event) => setValue(parseFloat(event.target.value))}
+                            value={value}
+                            onChange={(event) => setValue(event.target.value)}
                             sx={{ width: "100%" }}
                             placeholder="00,00"
                             type="number"
@@ -155,14 +185,15 @@ export default function CompanyMain() {
                         placement="top"
                     >
                         <span>
-                            <Button
+                            <LoadingButton
                                 sx={{ width: "100%" }}
                                 variant="contained"
+                                loading={loading}
                                 disabled={!enableConfirm}
                                 onClick={handleCreateService}
                             >
                                 Cadastrar
-                            </Button>
+                            </LoadingButton>
                         </span>
                     </Tooltip>
                 </div>
@@ -170,29 +201,29 @@ export default function CompanyMain() {
                     style={{ borderColor: `${theme.palette.primary.main}` }}
                     className={`${styles.main_item} ${styles.main_list}`}
                 >
-                    
-                {pageLoading ? (
-                    <Container
-                        sx={{
-                            height: "100%",
-                            display: "flex",
-                            alignItems: "center",
-                            justifyContent: "center",
-                        }}
-                    >
-                        <CircularProgress />
-                    </Container>
-                ):
-                    <div className={styles.main_scroll}>
-                        {services.length && services.map((service: Service, i) => (
-                            <ScheduleCard
-                                onDelete={handleDelete}
-                                key={service.name + i}
-                                {...service}
-                            />
-                        ))}
-                    </div>
-                }
+                    {pageLoading ? (
+                        <Container
+                            sx={{
+                                height: "100%",
+                                display: "flex",
+                                alignItems: "center",
+                                justifyContent: "center",
+                            }}
+                        >
+                            <CircularProgress />
+                        </Container>
+                    ) : (
+                        <div className={styles.main_scroll}>
+                            {services &&
+                                services.map((service: Service, i) => (
+                                    <ScheduleCard
+                                        onDelete={handleDelete}
+                                        key={service.name + i}
+                                        {...service}
+                                    />
+                                ))}
+                        </div>
+                    )}
                 </div>
             </div>
         </>

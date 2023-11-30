@@ -2,7 +2,7 @@ import { createContext } from "react";
 
 const DEFAULT_CONTEXT: Company = {
     email: "",
-    image: "",
+    imageData: "",
     name: "",
     category: [],
     description: "",

@@ -50,7 +50,7 @@ type Service = {
 
 type CompanyType = {
     email: string;
-    image: string;
+    imageData: string;
     name: string;
     category: string[];
     description: string;
@@ -67,7 +67,7 @@ type CompanyType = {
 type Company = Pick<
     CompanyType,
     | "email"
-    | "image"
+    | "imageData"
     | "name"
     | "category"
     | "description"

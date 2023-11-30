@@ -1,16 +1,24 @@
 "use client";
 import CompanyCard from "@/components/CompanyCard";
 import ConfirmationModal from "@/components/ConfirmationModal";
+import InformationModal from "@/components/InformationModal";
 import ServiceCard from "@/components/ServiceCard";
+import { AuthContext } from "@/context/AuthContext";
 import { CompanyContext } from "@/context/CompanyContext";
 import useHttp from "@/hooks/useHttp";
-import { SERVICES_COMPANY_REQUEST, USER_RESERVATION_CREATE } from "@/utils/requests";
-import { CircularProgress, Container, useTheme } from "@mui/material";
+import {
+    SERVICES_COMPANY_REQUEST,
+    USER_RESERVATION_CREATE,
+} from "@/utils/requests";
+import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
+import {
+    CircularProgress,
+    Container,
+    Typography,
+    useTheme,
+} from "@mui/material";
 import { ReactNode, useContext, useEffect, useState } from "react";
 import styles from "./index.module.scss";
-import { AuthContext } from "@/context/AuthContext";
-import InformationModal from "@/components/InformationModal";
-import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 
 export default function Login() {
     const theme = useTheme();
@@ -19,7 +27,7 @@ export default function Login() {
 
     const {
         email,
-        image,
+        imageData,
         name,
         category,
         description,
@@ -35,7 +43,7 @@ export default function Login() {
 
     const company: CompanyType = {
         email,
-        image,
+        imageData,
         name,
         category,
         description,
@@ -64,15 +72,19 @@ export default function Login() {
     };
 
     const commitConfirmService = () => {
-        if(!confirmService) return;
-        requestHttp(USER_RESERVATION_CREATE, {
-            serviceId: confirmService.id,
-            time: confirmService.time,
-            date: confirmService.date,
-        }, authContext.token);
+        if (!confirmService) return;
+        requestHttp(
+            USER_RESERVATION_CREATE,
+            {
+                serviceId: confirmService.id,
+                time: confirmService.time,
+                date: confirmService.date,
+            },
+            authContext.token
+        );
         setConfirmService(null);
         setSuccess(true);
-    }
+    };
 
     const renderConfirm = (): ReactNode => (
         <ConfirmationModal
@@ -121,17 +133,29 @@ export default function Login() {
                         >
                             <CircularProgress />
                         </Container>
-                    ) : (
+                    ) : data && data.length ? (
                         <div className={styles.main_scroll}>
-                            {data && data.length && 
-                                data.map((service: any, i: number) => (
-                                    <ServiceCard
-                                        onConfirm={handleConfirm}
-                                        key={service.name + i}
-                                        {...service}
-                                    />
-                                ))}
+                            {data.map((service: any, i: number) => (
+                                <ServiceCard
+                                    onConfirm={handleConfirm}
+                                    key={service.name + i}
+                                    {...service}
+                                />
+                            ))}
                         </div>
+                    ) : (
+                        <Container
+                            sx={{
+                                height: "100%",
+                                display: "flex",
+                                alignItems: "center",
+                                justifyContent: "center",
+                            }}
+                        >
+                            <Typography sx={{ fontSize: 24 }}>
+                                Nenhum serviço cadastrado.
+                            </Typography>
+                        </Container>
                     )}
                 </div>
             </div>

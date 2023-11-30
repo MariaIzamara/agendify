@@ -23,7 +23,7 @@ export default function CompanyCard({
     const { setCompany } = context;
 
     const {
-        image,
+        imageData,
         name,
         category,
         description,
@@ -41,7 +41,7 @@ export default function CompanyCard({
         <>
             <ListItemAvatar>
                 <Avatar
-                    src={image}
+                    src={imageData}
                     alt={name}
                     variant="rounded"
                     sx={{ width: 144, height: 144 }}
