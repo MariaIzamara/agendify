@@ -37,7 +37,6 @@ export default function Login(): ReactNode {
 
     const { loading, success, error, data, requestHttp } = useHttp();
 
-    const unfilledInputs = email === "" || password === "";
     const userNotFound = success && data === USER_NOT_FOUND;
 
     useEffect(() => {
@@ -67,6 +66,13 @@ export default function Login(): ReactNode {
     );
 
     const changeVisibilityPassword = () => setShowPassword(!showPassword)
+
+    const isInvalidEmail = (email: string) => {
+        let validate = RegExp(/\S+@\S+\.\S+/);
+        return !validate.test(email) && email !== ""
+    }
+
+    const showTooltip = () => (isInvalidEmail(email) || (email === "" || password === ""))
 
     return (
         <>
@@ -103,9 +109,9 @@ export default function Login(): ReactNode {
                 <Box>
                     <Typography>E-mail</Typography>
                     <TextField
-                        error={!email}
+                        error={isInvalidEmail(email)}
                         sx={{ width: 400 }}
-                        onChange={(event) => setEmail(event.target.value)}
+                        onChange={(event) => setEmail(event.target.value)}                        
                     />
                 </Box>
                 <Box>
@@ -114,7 +120,7 @@ export default function Login(): ReactNode {
                         sx={{ width: 400 }}
                         type={showPassword ? "text" :"password"}
                         onChange={(event) => setPassword(event.target.value)}
-                        error={!password}
+                        error={!password && password !== ""}
                         InputProps={ {
                             endAdornment: (
                             <InputAdornment position="end">
@@ -138,7 +144,7 @@ export default function Login(): ReactNode {
                 </Box>
                 <Tooltip
                     title={
-                        unfilledInputs &&
+                        showTooltip() &&
                         "Necessário preencher os campos de e-mail e senha."
                     }
                     placement="top"
@@ -147,7 +153,7 @@ export default function Login(): ReactNode {
                         <LoadingButton
                             variant="contained"
                             loading={loading}
-                            disabled={unfilledInputs}
+                            disabled={isInvalidEmail(email) || email === "" || password === ""}
                             onClick={() =>
                                 requestHttp(LOGIN_REQUEST, {
                                     email,

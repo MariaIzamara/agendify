@@ -9,8 +9,8 @@ export default function ZoomComponent({ children }: { children: ReactNode }) {
     const { zoom } = accessibilityContext;
 
     return (
-        <Container disableGutters sx={{ zoom: `${zoom}%`, height: "89%" }}>
+        <div style={{ zoom: `${zoom}%` }}>
             {children}
-        </Container>
+        </div> 
     );
 }

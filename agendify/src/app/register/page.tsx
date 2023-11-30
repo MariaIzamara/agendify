@@ -71,20 +71,8 @@ export default function RegisterDefault() {
     const changeVisibilityConfirmPassword = () => setShowConfirmPassword(!showConfirmPassword)
 
     return (
-        <Container
-            disableGutters
-            maxWidth={false}
-            sx={{
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-                width: "fit-content",
-                rowGap: "40px",
-                position: "absolute",
-                top: "50%",
-                left: "50%",
-                transform: "translate(-50%, -50%)",
-            }}
+        <div
+            style={{display: "flex", flexDirection: "column", alignItems: "center", paddingTop: "50px", gap: "20px"}}
         >
             <Typography
                 sx={{
@@ -98,16 +86,9 @@ export default function RegisterDefault() {
             >
                 Crie a sua conta
             </Typography>
-            <Grid
-                container
-                spacing={1}
-                sx={{
-                    alignSelf: "center",
-                    width: 1400,
-                }}
-            >
-                <Grid item xs={4} />
-                <Grid item xs={4} sx={{}}>
+
+                <div style={{display: "grid", gridTemplateColumns: "1fr 1fr 1fr"}}>
+                    <div></div>
                     <Container
                         disableGutters
                         sx={{
@@ -244,37 +225,36 @@ export default function RegisterDefault() {
                             </Link>
                         </Typography>
                     </Container>
-                </Grid>
-                <Grid item xs={4} sx={{ display: "flex" }}>
-                    <Box sx={{ alignSelf: "center" }}>
-                        <Typography>Sua senha necessita de:</Typography>
-                        {renderPasswordRequirements(
-                            "Pelo menos oito caracteres",
-                            validParams[0]
-                        )}
-                        {renderPasswordRequirements(
-                            "Pelo menos uma letra maiúscula",
-                            validParams[1]
-                        )}
-                        {renderPasswordRequirements(
-                            "Pelo menos uma letra minúscula",
-                            validParams[2]
-                        )}
-                        {renderPasswordRequirements(
-                            "Pelo menos um número",
-                            validParams[3]
-                        )}
-                        {renderPasswordRequirements(
-                            "Pelo menos um caractere especial",
-                            validParams[4]
-                        )}
-                        {renderPasswordRequirements(
-                            "Ser a mesma da confirmação",
-                            validParams[5]
-                        )}
-                    </Box>
-                </Grid>
-            </Grid>
-        </Container>
+                    <div style={{display: "flex", marginLeft: "40px"}}>
+                        <Box sx={{ alignSelf: "center" }}>
+                            <Typography>Sua senha necessita de:</Typography>
+                            {renderPasswordRequirements(
+                                "Pelo menos oito caracteres",
+                                validParams[0]
+                            )}
+                            {renderPasswordRequirements(
+                                "Pelo menos uma letra maiúscula",
+                                validParams[1]
+                            )}
+                            {renderPasswordRequirements(
+                                "Pelo menos uma letra minúscula",
+                                validParams[2]
+                            )}
+                            {renderPasswordRequirements(
+                                "Pelo menos um número",
+                                validParams[3]
+                            )}
+                            {renderPasswordRequirements(
+                                "Pelo menos um caractere especial",
+                                validParams[4]
+                            )}
+                            {renderPasswordRequirements(
+                                "Ser a mesma da confirmação",
+                                validParams[5]
+                            )}
+                        </Box>
+                    </div>
+                </div>
+        </div>
     );
 }
