@@ -1,6 +1,12 @@
 import ConfirmationModal from "@/components/ConfirmationModal";
 import ScheduleCard from "@/components/ScheduleCard";
-import { dummySchedules } from "@/utils/constants";
+import { AuthContext } from "@/context/AuthContext";
+import useHttp from "@/hooks/useHttp";
+import {
+    SERVICE_CREATE_REQUEST,
+    SERVICE_DELETE_REQUEST,
+    USER_SERVICES_REQUEST,
+} from "@/utils/requests";
 import {
     Box,
     Button,
@@ -13,9 +19,6 @@ import {
 } from "@mui/material";
 import { ReactNode, useContext, useEffect, useState } from "react";
 import styles from "./index.module.scss";
-import useHttp from "@/hooks/useHttp";
-import { SERVICE_CREATE_REQUEST, USER_SERVICES_REQUEST, SERVICE_DELETE_REQUEST } from "@/utils/requests";
-import { AuthContext } from "@/context/AuthContext";
 import { timeToMin } from "./utils";
 
 export default function CompanyMain() {
@@ -30,7 +33,11 @@ export default function CompanyMain() {
     const [services, setServices] = useState<Service[]>([]);
 
     const { requestHttp } = useHttp();
-    const { loading: pageLoading, data: pageData, requestHttp: pageRequestHttp } = useHttp();
+    const {
+        loading: pageLoading,
+        data: pageData,
+        requestHttp: pageRequestHttp,
+    } = useHttp();
 
     useEffect(() => {
         pageRequestHttp(USER_SERVICES_REQUEST, {}, context.token);
@@ -47,23 +54,37 @@ export default function CompanyMain() {
     };
 
     const deleteService = () => {
-        if(!cancelService) return
-        requestHttp(SERVICE_DELETE_REQUEST, {
-            serviceId: cancelService.id
-        }, context.token)
-        setTimeout(() => pageRequestHttp(USER_SERVICES_REQUEST, {}, context.token), 1000)
-        setCancelService(null)
-    }
+        if (!cancelService) return;
+        requestHttp(
+            SERVICE_DELETE_REQUEST,
+            {
+                serviceId: cancelService.id,
+            },
+            context.token
+        );
+        setTimeout(
+            () => pageRequestHttp(USER_SERVICES_REQUEST, {}, context.token),
+            1000
+        );
+        setCancelService(null);
+    };
 
     const handleCreateService = () => {
-        requestHttp(SERVICE_CREATE_REQUEST, {
-            name: name,
-            cost: value,
-            duration: duration,
-            description: description
-        }, context.token);
-        setTimeout(() => pageRequestHttp(USER_SERVICES_REQUEST, {}, context.token), 1000)
-    }
+        requestHttp(
+            SERVICE_CREATE_REQUEST,
+            {
+                name: name,
+                cost: value,
+                duration: duration,
+                description: description,
+            },
+            context.token
+        );
+        setTimeout(
+            () => pageRequestHttp(USER_SERVICES_REQUEST, {}, context.token),
+            1000
+        );
+    };
 
     const renderConfirm = (): ReactNode => (
         <ConfirmationModal
@@ -141,7 +162,9 @@ export default function CompanyMain() {
                             Valor *
                         </Typography>
                         <TextField
-                            onChange={(event) => setValue(parseFloat(event.target.value))}
+                            onChange={(event) =>
+                                setValue(parseFloat(event.target.value))
+                            }
                             sx={{ width: "100%" }}
                             placeholder="00,00"
                             type="number"
@@ -170,29 +193,29 @@ export default function CompanyMain() {
                     style={{ borderColor: `${theme.palette.primary.main}` }}
                     className={`${styles.main_item} ${styles.main_list}`}
                 >
-                    
-                {pageLoading ? (
-                    <Container
-                        sx={{
-                            height: "100%",
-                            display: "flex",
-                            alignItems: "center",
-                            justifyContent: "center",
-                        }}
-                    >
-                        <CircularProgress />
-                    </Container>
-                ):
-                    <div className={styles.main_scroll}>
-                        {services.length && services.map((service: Service, i) => (
-                            <ScheduleCard
-                                onDelete={handleDelete}
-                                key={service.name + i}
-                                {...service}
-                            />
-                        ))}
-                    </div>
-                }
+                    {pageLoading ? (
+                        <Container
+                            sx={{
+                                height: "100%",
+                                display: "flex",
+                                alignItems: "center",
+                                justifyContent: "center",
+                            }}
+                        >
+                            <CircularProgress />
+                        </Container>
+                    ) : (
+                        <div className={styles.main_scroll}>
+                            {services &&
+                                services.map((service: Service, i) => (
+                                    <ScheduleCard
+                                        onDelete={handleDelete}
+                                        key={service.name + i}
+                                        {...service}
+                                    />
+                                ))}
+                        </div>
+                    )}
                 </div>
             </div>
         </>

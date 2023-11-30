@@ -164,9 +164,9 @@ export const theme = (mode: typeof LIGHT | typeof DARK) => {
                     },
                 },
             },
-            MuiTypography: {
+            MuiListItemText: {
                 styleOverrides: {
-                    root: {
+                    secondary: {
                         color: mode === DARK ? "#FFFFFF" : "#000000",
                     },
                 },

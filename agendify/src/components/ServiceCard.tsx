@@ -1,6 +1,7 @@
 import { AuthContext } from "@/context/AuthContext";
 import useHttp from "@/hooks/useHttp";
 import { SERVICES_COMPANY_CHECK } from "@/utils/requests";
+import { CancelOutlined } from "@mui/icons-material";
 import { Box, Button, Typography, useTheme } from "@mui/material";
 import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
@@ -9,7 +10,6 @@ import dayjs from "dayjs";
 import React, { ReactNode, useEffect } from "react";
 import CustomSelect from "./CustomSelect";
 import InformationModal from "./InformationModal";
-import { CancelOutlined } from "@mui/icons-material";
 
 type ServiceCardProps = {
     id: number;
@@ -51,11 +51,11 @@ export default function ServiceCard({
     }, [date]);
 
     const handleConfirm = () => {
-        if(!context.token){
+        if (!context.token) {
             setError(true);
             return;
         }
-        if(!date) return;
+        if (!date) return;
         onConfirm({
             id: id,
             name: name,
@@ -71,7 +71,7 @@ export default function ServiceCard({
     const renderError = (): ReactNode => (
         <InformationModal
             icon={<CancelOutlined fontSize="medium" />}
-            text="Realize o login para confirmar um agendamento"
+            text="Entre com uma conta para confirmar um agendamento."
             backgroundColor={theme.palette.error.main}
             onClose={() => setError(false)}
         />
