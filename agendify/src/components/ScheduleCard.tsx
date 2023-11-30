@@ -1,6 +1,7 @@
 import { AuthContext } from "@/context/AuthContext";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { Box, IconButton, Typography, useTheme } from "@mui/material";
+import { usePathname } from "next/navigation";
 import { useContext } from "react";
 
 type ScheduleCardProps = {
@@ -28,6 +29,7 @@ export default function ScheduleCard({
     customerPhone,
     onDelete,
 }: ScheduleCardProps) {
+    const pathname = usePathname();
     const theme = useTheme();
     const context = useContext(AuthContext);
 
@@ -43,7 +45,12 @@ export default function ScheduleCard({
         });
     };
 
-    const customerData = context.userType==="COMPANY" ? (customerName && customerPhone && (" - " + customerName + " - " + customerPhone)) : ""
+    const customerData =
+        context.userType === "COMPANY" && pathname === "/schedules"
+            ? customerName &&
+              customerPhone &&
+              " (" + customerName + ", " + customerPhone + ")"
+            : "";
 
     return (
         <Box
@@ -84,9 +91,11 @@ export default function ScheduleCard({
                 <Typography sx={{ fontSize: 16 }}>
                     {"Duração de " + duration + " minutos"}
                 </Typography>
-                <Typography sx={{ fontSize: 14 }}>{description + (customerData && customerData)}</Typography>
                 <Typography sx={{ fontSize: 14 }}>
-                    {date ? (date + " - " + time) : <>&nbsp;</>}
+                    {description + (customerData && customerData)}
+                </Typography>
+                <Typography sx={{ fontSize: 14 }}>
+                    {date ? date + " - " + time : <>&nbsp;</>}
                 </Typography>
                 <Typography>{"R$ " + cost.toFixed(2)}</Typography>
             </Box>

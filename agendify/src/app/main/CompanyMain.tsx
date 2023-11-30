@@ -7,9 +7,9 @@ import {
     SERVICE_DELETE_REQUEST,
     USER_SERVICES_REQUEST,
 } from "@/utils/requests";
+import { LoadingButton } from "@mui/lab";
 import {
     Box,
-    Button,
     CircularProgress,
     Container,
     TextField,
@@ -27,12 +27,12 @@ export default function CompanyMain() {
 
     const [name, setName] = useState("");
     const [description, setDescription] = useState("");
-    const [duration, setDuration] = useState<number>();
-    const [value, setValue] = useState<number>();
+    const [duration, setDuration] = useState("");
+    const [value, setValue] = useState("");
     const [cancelService, setCancelService] = useState<Service | null>(null);
     const [services, setServices] = useState<Service[]>([]);
 
-    const { requestHttp } = useHttp();
+    const { loading, requestHttp } = useHttp();
     const {
         loading: pageLoading,
         data: pageData,
@@ -74,12 +74,16 @@ export default function CompanyMain() {
             SERVICE_CREATE_REQUEST,
             {
                 name: name,
-                cost: value,
-                duration: duration,
                 description: description,
+                duration: timeToMin(duration),
+                cost: parseFloat(value),
             },
             context.token
         );
+        setName("");
+        setDescription("");
+        setDuration("");
+        setValue("");
         setTimeout(
             () => pageRequestHttp(USER_SERVICES_REQUEST, {}, context.token),
             1000
@@ -103,7 +107,8 @@ export default function CompanyMain() {
         />
     );
 
-    const enableConfirm = name && duration && value;
+    const enableConfirm =
+        (name !== "" && duration !== "" && value !== "") || loading;
 
     return (
         <>
@@ -127,6 +132,7 @@ export default function CompanyMain() {
                         </Typography>
                         <TextField
                             sx={{ width: "100%" }}
+                            value={name}
                             onChange={(event) => setName(event.target.value)}
                         />
                     </Box>
@@ -139,6 +145,7 @@ export default function CompanyMain() {
                             multiline
                             rows={4}
                             size={"small"}
+                            value={description}
                             onChange={(event) =>
                                 setDescription(event.target.value)
                             }
@@ -149,8 +156,9 @@ export default function CompanyMain() {
                             Duração *
                         </Typography>
                         <TextField
+                            value={duration}
                             onChange={(event) =>
-                                setDuration(timeToMin(event.target.value))
+                                setDuration(event.target.value)
                             }
                             placeholder="00:00"
                             type="time"
@@ -162,9 +170,8 @@ export default function CompanyMain() {
                             Valor *
                         </Typography>
                         <TextField
-                            onChange={(event) =>
-                                setValue(parseFloat(event.target.value))
-                            }
+                            value={value}
+                            onChange={(event) => setValue(event.target.value)}
                             sx={{ width: "100%" }}
                             placeholder="00,00"
                             type="number"
@@ -178,14 +185,15 @@ export default function CompanyMain() {
                         placement="top"
                     >
                         <span>
-                            <Button
+                            <LoadingButton
                                 sx={{ width: "100%" }}
                                 variant="contained"
+                                loading={loading}
                                 disabled={!enableConfirm}
                                 onClick={handleCreateService}
                             >
                                 Cadastrar
-                            </Button>
+                            </LoadingButton>
                         </span>
                     </Tooltip>
                 </div>
